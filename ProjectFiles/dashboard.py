@@ -167,6 +167,7 @@ def bloodflow_figure(value, bloodflow_checkmarks):
     #Durchschnitt
     avg = bf.mean()
     
+    #Aufgabe 3-1, 3-2
     x = [0, 480]
     y = avg.loc['Blood Flow (ml/s)']
     y_oben = avg.loc['Blood Flow (ml/s)']*1.15
