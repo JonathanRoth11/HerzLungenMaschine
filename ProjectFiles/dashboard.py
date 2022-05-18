@@ -172,12 +172,14 @@ def bloodflow_figure(value, bloodflow_checkmarks):
     y = avg.loc['Blood Flow (ml/s)']
     y_oben = avg.loc['Blood Flow (ml/s)']*1.15
     y_unten = avg.loc['Blood Flow (ml/s)']*0.85
+    
+    if bloodflow_checkmarks == ["Show Limits"]:
 
-    fig3.add_trace(go.Scatter(x = x, y= [y,y], mode = 'lines'))
+        fig3.add_trace(go.Scatter(x = x, y= [y,y], mode = 'lines'))
 
-    fig3.add_trace(go.Scatter(x = x, y = [y_oben,y_oben], mode = 'lines', name = 'upper line'))
+        fig3.add_trace(go.Scatter(x = x, y = [y_oben,y_oben], mode = 'lines', name = 'upper line'))
 
-    fig3.add_trace(go.Scatter(x = x, y = [y_unten, y_unten], mode = 'lines', name = 'under line'))
+        fig3.add_trace(go.Scatter(x = x, y = [y_unten, y_unten], mode = 'lines', name = 'under line'))
 
     return fig3
 
