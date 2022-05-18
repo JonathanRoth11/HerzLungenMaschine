@@ -9,7 +9,7 @@ import utilities as ut
 import numpy as np
 import os
 import re
-
+"""  """
 app = Dash(__name__)
 
 
@@ -117,6 +117,25 @@ def update_figure(value, algorithm_checkmarks):
     
     ### Aufgabe 2: Min / Max ###
 
+    grp = ts.agg(['max', 'min', 'idxmax', 'idxmin'])
+    print(grp)
+
+    if 'max' in algorithm_checkmarks:
+        fig0.add_trace(go.Scatter(x = [grp.loc['idxmax', data_names[0]]], y = [grp.loc['max', data_names[0]]], 
+                    mode ='markers', name= 'max', marker_symbol = 'star', marker_size = 15, marker_color = 'red'))
+        fig1.add_trace(go.Scatter(x = [grp.loc['idxmax', data_names[1]]], y = [grp.loc['max', data_names[1]]], 
+                    mode ='markers', name= 'max', marker_symbol = 'star', marker_size = 15, marker_color = 'red'))
+        fig2.add_trace(go.Scatter(x = [grp.loc['idxmax', data_names[2]]], y = [grp.loc['max', data_names[2]]], 
+                    mode ='markers', name= 'max', marker_symbol = 'star', marker_size = 15, marker_color = 'red'))
+
+    if 'min' in algorithm_checkmarks:
+        fig0.add_trace(go.Scatter(x = [grp.loc['idxmin', data_names[0]]], y = [grp.loc['min', data_names[0]]], 
+                    mode ='markers', name= 'min', marker_symbol = 'star', marker_size = 15, marker_color = 'green'))
+        fig1.add_trace(go.Scatter(x = [grp.loc['idxmin', data_names[1]]], y = [grp.loc['min', data_names[1]]], 
+                    mode ='markers', name= 'min', marker_symbol = 'star', marker_size = 15, marker_color = 'green'))
+        fig2.add_trace(go.Scatter(x = [grp.loc['idxmin', data_names[2]]], y = [grp.loc['min', data_names[2]]], 
+                    mode ='markers', name= 'min', marker_symbol = 'star', marker_size = 15, marker_color = 'green'))
+
     return fig0, fig1, fig2 
 
 
@@ -133,9 +152,34 @@ def bloodflow_figure(value, bloodflow_checkmarks):
     print(bloodflow_checkmarks)
     bf = list_of_subjects[int(value)-1].subject_data
     fig3 = px.line(bf, x="Time (s)", y="Blood Flow (ml/s)")
+    
+    
+    if bloodflow_checkmarks == ["SMA"]:
+        bf = list_of_subjects[int(value)-1].subject_data
+        bf["Blood Flow (ml/s) - SMA"] = ut.calculate_SMA(bf["Blood Flow (ml/s)"],5) 
+        fig3 = px.line(bf, x="Time (s)", y="Blood Flow (ml/s) - SMA")
 
+    if bloodflow_checkmarks == ["CMA"]:
+        bf = list_of_subjects[int(value)-1].subject_data
+        bf["Blood Flow (ml/s) - CMA"] = ut.calculate_CMA(bf["Blood Flow (ml/s)"],2) 
+        fig3 = px.line(bf, x="Time (s)", y="Blood Flow (ml/s) - CMA")
+
+    #Durchschnitt
+    avg = bf.mean()
+    
+    x = [0, 480]
+    y = avg.loc['Blood Flow (ml/s)']
+    y_oben = avg.loc['Blood Flow (ml/s)']*1.15
+    y_unten = avg.loc['Blood Flow (ml/s)']*0.85
+
+    fig3.add_trace(go.Scatter(x = x, y= [y,y], mode = 'lines'))
+
+    fig3.add_trace(go.Scatter(x = x, y = [y_oben,y_oben], mode = 'lines', name = 'upper line'))
+
+    fig3.add_trace(go.Scatter(x = x, y = [y_unten, y_unten], mode = 'lines', name = 'under line'))
 
     return fig3
 
+    
 if __name__ == '__main__':
     app.run_server(debug=True)

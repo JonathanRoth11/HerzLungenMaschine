@@ -16,8 +16,8 @@ class Subject():
         __f = open(file_name)
         self.subject_data = pd.read_csv(__f)
         self.subject_data = self.subject_data.interpolate(method = 'spline', axis=0, order = 1)
-        __splited_id = re.findall(r'\d+',file_name)      
-        self.subject_id = ''.join(__splited_id)
+        #__splited_id = re.findall(r'\d+',file_name)      
+        self.subject_id = file_name.split('.csv')[0][-1]
         self.names = self.subject_data.columns.values.tolist()
         self.time = self.subject_data["Time (s)"]        
         self.spO2 = self.subject_data["SpO2 (%)"]
@@ -32,8 +32,8 @@ class Subject():
 ### Aufgabe 2: Datenverarbeitung ###
 
 def calculate_CMA(df,n):
-    pass
+    return df.expanding(n).mean()
     
 
 def calculate_SMA(df,n):
-    pass
+    return df.rolling(n).mean()
