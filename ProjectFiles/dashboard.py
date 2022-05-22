@@ -167,21 +167,30 @@ def bloodflow_figure(value, bloodflow_checkmarks):
     #Durchschnitt
     avg = bf.mean()
     
-    #Aufgabe 3-1, 3-2
+    #Aufgabe 3-1, 3-2, 3-3 
     x = [0, 480]
     y = avg.loc['Blood Flow (ml/s)']
     y_oben = avg.loc['Blood Flow (ml/s)']*1.15
     y_unten = avg.loc['Blood Flow (ml/s)']*0.85
+
+    fig3.add_trace(go.Scatter(x = x, y= [y,y], mode = 'lines'))
+
+    fig3.add_trace(go.Scatter(x = x, y = [y_oben,y_oben], mode = 'lines', name = 'upper line'))
+
+    fig3.add_trace(go.Scatter(x = x, y = [y_unten, y_unten], mode = 'lines', name = 'under line'))
     
     if bloodflow_checkmarks == ["Show Limits"]:
+        
+        uplimit= bf[bf["Blood Flow (ml/s) - SMA"]>= y_oben]
+        downlimit= bf[bf["Blood Flow (ml/s) - SMA"]<= y_unten]
 
-        fig3.add_trace(go.Scatter(x = x, y= [y,y], mode = 'lines'))
-
-        fig3.add_trace(go.Scatter(x = x, y = [y_oben,y_oben], mode = 'lines', name = 'upper line'))
-
-        fig3.add_trace(go.Scatter(x = x, y = [y_unten, y_unten], mode = 'lines', name = 'under line'))
-
+        beschreib = "values out of range:" + str(uplimit[bf["Blood Flow (ml/s) - SMA"]].count()) + str(downlimit[bf["Blood Flow (ml/s) - SMA"]].count()) +'s'
+        
+        fig3.add_trace(go.Scatter(name= beschreib, x = uplimit['Time (s)'], y = uplimit, mode = 'markers', color = 'red'))
+        fig3.add_trace(go.Scatter(name= beschreib, x = downlimit['Time (s)'], y = downlimit, mode = 'markers', color = 'green'))
+    
     return fig3
+
 
     
 if __name__ == '__main__':
