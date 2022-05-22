@@ -201,7 +201,7 @@ def bloodflow_figure(value, bloodflow_checkmarks):
     y_oben = avg.loc['Blood Flow (ml/s)']*1.15
     y_unten = avg.loc['Blood Flow (ml/s)']*0.85
 
-    fig3.add_trace(go.Scatter(x = x, y= [y,y], mode = 'lines', line_color='#BFF172'))
+    fig3.add_trace(go.Scatter(x = x, y= [y,y], mode = 'lines', name = 'average', line_color='#BFF172'))
 
     fig3.add_trace(go.Scatter(x = x, y = [y_oben,y_oben], mode = 'lines', name = 'upper line', line_color='#9B2533'))
 
