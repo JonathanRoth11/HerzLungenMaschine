@@ -12,6 +12,12 @@ import re
 """  """
 app = Dash(__name__)
 
+colors = {
+    'background': '#EEFFFF',
+    'text': '#6F7080',
+    'paper': '#E4F4FC'
+}
+
 
 list_of_subjects = []
 subj_numbers = []
@@ -51,7 +57,12 @@ fig2 = px.line(df, x="Time (s)", y = "Temp (C)")
 fig3 = px.line(df, x="Time (s)", y = "Blood Flow (ml/s)")
 
 app.layout = html.Div(children=[
-    html.H1(children='Cardiopulmonary Bypass Dashboard'),
+    html.H1(children='Cardiopulmonary Bypass Dashboard', 
+        style={
+         'textAlign': 'center',
+         'color': colors['text']
+        } 
+    ),
 
     html.Div(children='''
         Hier könnten Informationen zum Patienten stehen....
@@ -120,23 +131,40 @@ def update_figure(value, algorithm_checkmarks):
     grp = ts.agg(['max', 'min', 'idxmax', 'idxmin'])
     print(grp)
 
+    fig0.update_layout(
+    plot_bgcolor=colors['background'],
+    paper_bgcolor=colors['paper'],
+    font_color=colors['text']
+    )
+
+    fig1.update_layout(
+    plot_bgcolor=colors['background'],
+    paper_bgcolor=colors['paper'],
+    font_color=colors['text']
+    )
+    fig2.update_layout(
+    plot_bgcolor=colors['background'],
+    paper_bgcolor=colors['paper'],
+    font_color=colors['text']
+    )
+
     if 'max' in algorithm_checkmarks:
         fig0.add_trace(go.Scatter(x = [grp.loc['idxmax', data_names[0]]], y = [grp.loc['max', data_names[0]]], 
-                    mode ='markers', name= 'max', marker_symbol = 'star', marker_size = 15, marker_color = 'red'))
+                    mode ='markers', name= 'max', marker_symbol = 'star', marker_size = 15, marker_color = '#9B2533'))
         fig1.add_trace(go.Scatter(x = [grp.loc['idxmax', data_names[1]]], y = [grp.loc['max', data_names[1]]], 
-                    mode ='markers', name= 'max', marker_symbol = 'star', marker_size = 15, marker_color = 'red'))
+                    mode ='markers', name= 'max', marker_symbol = 'star', marker_size = 15, marker_color = '#9B2533'))
         fig2.add_trace(go.Scatter(x = [grp.loc['idxmax', data_names[2]]], y = [grp.loc['max', data_names[2]]], 
-                    mode ='markers', name= 'max', marker_symbol = 'star', marker_size = 15, marker_color = 'red'))
+                    mode ='markers', name= 'max', marker_symbol = 'star', marker_size = 15, marker_color = '#9B2533'))
 
     if 'min' in algorithm_checkmarks:
         fig0.add_trace(go.Scatter(x = [grp.loc['idxmin', data_names[0]]], y = [grp.loc['min', data_names[0]]], 
-                    mode ='markers', name= 'min', marker_symbol = 'star', marker_size = 15, marker_color = 'green'))
+                    mode ='markers', name= 'min', marker_symbol = 'star', marker_size = 15, marker_color = '#05999B'))
         fig1.add_trace(go.Scatter(x = [grp.loc['idxmin', data_names[1]]], y = [grp.loc['min', data_names[1]]], 
-                    mode ='markers', name= 'min', marker_symbol = 'star', marker_size = 15, marker_color = 'green'))
+                    mode ='markers', name= 'min', marker_symbol = 'star', marker_size = 15, marker_color = '#05999B'))
         fig2.add_trace(go.Scatter(x = [grp.loc['idxmin', data_names[2]]], y = [grp.loc['min', data_names[2]]], 
-                    mode ='markers', name= 'min', marker_symbol = 'star', marker_size = 15, marker_color = 'green'))
+                    mode ='markers', name= 'min', marker_symbol = 'star', marker_size = 15, marker_color = '#05999B'))
 
-    return fig0, fig1, fig2 
+    return fig0, fig1, fig2  
 
 
 ## Blodflow Simple Moving Average Update
@@ -173,22 +201,29 @@ def bloodflow_figure(value, bloodflow_checkmarks):
     y_oben = avg.loc['Blood Flow (ml/s)']*1.15
     y_unten = avg.loc['Blood Flow (ml/s)']*0.85
 
-    fig3.add_trace(go.Scatter(x = x, y= [y,y], mode = 'lines'))
+    fig3.add_trace(go.Scatter(x = x, y= [y,y], mode = 'lines', line_color='#BFF172'))
 
-    fig3.add_trace(go.Scatter(x = x, y = [y_oben,y_oben], mode = 'lines', name = 'upper line'))
+    fig3.add_trace(go.Scatter(x = x, y = [y_oben,y_oben], mode = 'lines', name = 'upper line', line_color='#9B2533'))
 
-    fig3.add_trace(go.Scatter(x = x, y = [y_unten, y_unten], mode = 'lines', name = 'under line'))
+    fig3.add_trace(go.Scatter(x = x, y = [y_unten, y_unten], mode = 'lines', name = 'under line', line_color='#05999B'))
     
     if bloodflow_checkmarks == ["Show Limits"]:
         
-        uplimit= bf[bf["Blood Flow (ml/s) - SMA"]>= y_oben]
-        downlimit= bf[bf["Blood Flow (ml/s) - SMA"]<= y_unten]
+        uplimit= bf[(bf["Blood Flow (ml/s) - SMA"]>= y_oben)]
+        downlimit= bf[(bf["Blood Flow (ml/s) - SMA"]<= y_unten)]
 
         beschreib = "values out of range:" + str(uplimit[bf["Blood Flow (ml/s) - SMA"]].count()) + str(downlimit[bf["Blood Flow (ml/s) - SMA"]].count()) +'s'
         
-        fig3.add_trace(go.Scatter(name= beschreib, x = uplimit['Time (s)'], y = uplimit, mode = 'markers', color = 'red'))
-        fig3.add_trace(go.Scatter(name= beschreib, x = downlimit['Time (s)'], y = downlimit, mode = 'markers', color = 'green'))
+        fig3.add_trace(go.Scatter(name= beschreib, x = uplimit['Time (s)'], y = uplimit, mode = 'markers', color = '#9B2533'))
+        fig3.add_trace(go.Scatter(name= beschreib, x = downlimit['Time (s)'], y = downlimit, mode = 'markers', color = '#05999B'))
     
+    fig3.update_layout(
+    plot_bgcolor=colors['background'],
+    paper_bgcolor=colors['paper'],
+    font_color=colors['text']
+    )
+
+
     return fig3
 
 
