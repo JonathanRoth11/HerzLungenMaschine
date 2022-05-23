@@ -201,21 +201,23 @@ def bloodflow_figure(value, bloodflow_checkmarks):
     y_oben = avg.loc['Blood Flow (ml/s)']*1.15
     y_unten = avg.loc['Blood Flow (ml/s)']*0.85
 
-    fig3.add_trace(go.Scatter(x = x, y= [y,y], mode = 'lines', name = 'average', line_color='#BFF172'))
-
-    fig3.add_trace(go.Scatter(x = x, y = [y_oben,y_oben], mode = 'lines', name = 'upper line', line_color='#9B2533'))
-
-    fig3.add_trace(go.Scatter(x = x, y = [y_unten, y_unten], mode = 'lines', name = 'under line', line_color='#05999B'))
-    
     if bloodflow_checkmarks == ["Show Limits"]:
-        
-        uplimit= bf[(bf["Blood Flow (ml/s) - SMA"]>= y_oben)]
-        downlimit= bf[(bf["Blood Flow (ml/s) - SMA"]<= y_unten)]
 
-        beschreib = "values out of range:" + str(uplimit[bf["Blood Flow (ml/s) - SMA"]].count()) + str(downlimit[bf["Blood Flow (ml/s) - SMA"]].count()) +'s'
+        fig3.add_trace(go.Scatter(x = x, y= [y,y], mode = 'lines', name = 'average', line_color='#BFF172'))
+
+        fig3.add_trace(go.Scatter(x = x, y = [y_oben,y_oben], mode = 'lines', name = 'upper line', line_color='#9B2533'))
+
+        fig3.add_trace(go.Scatter(x = x, y = [y_unten, y_unten], mode = 'lines', name = 'under line', line_color='#05999B'))
+    
+   #if bloodflow_checkmarks == ["Show Limits"]:
         
-        fig3.add_trace(go.Scatter(name= beschreib, x = uplimit['Time (s)'], y = uplimit, mode = 'markers', color = '#9B2533'))
-        fig3.add_trace(go.Scatter(name= beschreib, x = downlimit['Time (s)'], y = downlimit, mode = 'markers', color = '#05999B'))
+        # uplimit= bf[(bf["Blood Flow (ml/s) - SMA"]>= y_oben)]
+        # downlimit= bf[(bf["Blood Flow (ml/s) - SMA"]<= y_unten)]
+
+        # beschreib = "values out of range:" + str(uplimit[bf["Blood Flow (ml/s) - SMA"]].count()) + str(downlimit[bf["Blood Flow (ml/s) - SMA"]].count()) +'s'
+        
+        # fig3.add_trace(go.Scatter(name= beschreib, x = uplimit['Time (s)'], y = uplimit, mode = 'markers', color = '#9B2533'))
+        # fig3.add_trace(go.Scatter(name= beschreib, x = downlimit['Time (s)'], y = downlimit, mode = 'markers', color = '#05999B'))
     
     fig3.update_layout(
     plot_bgcolor=colors['background'],
