@@ -25,6 +25,14 @@ class Subject():
         self.blood_flow = self.subject_data["Blood Flow (ml/s)"]
         print('Subject ' + self.subject_id + ' initialized')
 
+### Aufgabe 2: Datenverarbeitung ###
+
+def calculate_CMA(df,n):
+    return df.expanding(n).mean()
+    
+
+def calculate_SMA(df,n):
+    return df.rolling(n).mean()
 
 ###Aufgabe 3
 # def mehrals(flow, min, max):
@@ -49,7 +57,7 @@ class Subject():
 #         else :
 #             time_start_max = null 
 
-#         if x.loc['Blood Flow (ml/s)'] < min:
+#         if x.loc['Blood Flow (ml/s)'] <= min:
 
 #             if time_start_min is not null: 
 #                 if x.loc['Time (s)'] - time_start_min >=3 :
@@ -67,14 +75,6 @@ class Subject():
 #     return timelowlimit + timeuplimit 
         
 
-### Aufgabe 2: Datenverarbeitung ###
-
-def calculate_CMA(df,n):
-    return df.expanding(n).mean()
-    
-
-def calculate_SMA(df,n):
-    return df.rolling(n).mean()
 
 ### Aufgabe 4 
 #4.1 
