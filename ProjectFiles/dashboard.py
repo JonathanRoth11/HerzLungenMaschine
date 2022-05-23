@@ -208,6 +208,28 @@ def bloodflow_figure(value, bloodflow_checkmarks):
         fig3.add_trace(go.Scatter(x = x, y = [y_oben,y_oben], mode = 'lines', name = 'upper line', line_color='#9B2533'))
 
         fig3.add_trace(go.Scatter(x = x, y = [y_unten, y_unten], mode = 'lines', name = 'under line', line_color='#05999B'))
+        
+    if bloodflow_checkmarks == ["SMA", "Show Limits"]:
+        bf = list_of_subjects[int(value)-1].subject_data
+        bf["Blood Flow (ml/s) - SMA"] = ut.calculate_SMA(bf["Blood Flow (ml/s)"],5) 
+        fig3 = px.line(bf, x="Time (s)", y="Blood Flow (ml/s) - SMA")
+
+        fig3.add_trace(go.Scatter(x = x, y= [y,y], mode = 'lines', name = 'average', line_color='#BFF172'))
+
+        fig3.add_trace(go.Scatter(x = x, y = [y_oben,y_oben], mode = 'lines', name = 'upper line', line_color='#9B2533'))
+
+        fig3.add_trace(go.Scatter(x = x, y = [y_unten, y_unten], mode = 'lines', name = 'under line', line_color='#05999B'))
+
+    if bloodflow_checkmarks == ["CMA", "Show Limits"]:
+        bf = list_of_subjects[int(value)-1].subject_data
+        bf["Blood Flow (ml/s) - CMA"] = ut.calculate_CMA(bf["Blood Flow (ml/s)"],2) 
+        fig3 = px.line(bf, x="Time (s)", y="Blood Flow (ml/s) - CMA")
+
+        fig3.add_trace(go.Scatter(x = x, y= [y,y], mode = 'lines', name = 'average', line_color='#BFF172'))
+
+        fig3.add_trace(go.Scatter(x = x, y = [y_oben,y_oben], mode = 'lines', name = 'upper line', line_color='#9B2533'))
+
+        fig3.add_trace(go.Scatter(x = x, y = [y_unten, y_unten], mode = 'lines', name = 'under line', line_color='#05999B'))
     
    #if bloodflow_checkmarks == ["Show Limits"]:
         
