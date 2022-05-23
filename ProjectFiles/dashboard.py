@@ -15,7 +15,8 @@ app = Dash(__name__)
 colors = {
     'background': '#EEFFFF',
     'text': '#6F7080',
-    'paper': '#E4F4FC'
+    'paper': '#E4F4FC',
+    'text2' : '#1210F1'
 }
 
 
@@ -60,7 +61,7 @@ app.layout = html.Div(children=[
     html.H1(children='Cardiopulmonary Bypass Dashboard', 
         style={
          'textAlign': 'center',
-         'color': colors['text']
+         'color': colors['text2']
         } 
     ),
 
