@@ -26,7 +26,45 @@ class Subject():
         print('Subject ' + self.subject_id + ' initialized')
 
 
+###Aufgabe 3
+# def mehrals(flow, min, max):
+    
+#     time_start_max = null
+#     time_start_min = null 
+#     timeuplimit = 0
+#     timelowlimit = 0
 
+#     for x in flow:
+        
+#         if x.loc['Blood Flow (ml/s)'] > max:
+
+#             if time_start_max is not null: 
+#                 if x.loc['Time (s)'] - time_start_max >=3 :
+#                     timeuplimit = timeuplimit + ( x.loc['Time (s)'] - bevor_time)
+#                 else:
+#                     time_start_max = time_start_max
+#             else:
+#                 time_start_max = x.loc['Time (s)']
+
+#         else :
+#             time_start_max = null 
+
+#         if x.loc['Blood Flow (ml/s)'] < min:
+
+#             if time_start_min is not null: 
+#                 if x.loc['Time (s)'] - time_start_min >=3 :
+#                     timelowlimit = timelowlimit + ( x.loc['Time (s)'] - bevor_time)
+#                 else:
+#                     time_start_min = time_start_min
+#             else:
+#                 time_start_min = x.loc['Time (s)']
+
+#         else :
+#             time_start_min = null 
+
+#         bevor_time = x.loc['Time (s)']
+
+#     return timelowlimit + timeuplimit 
         
 
 ### Aufgabe 2: Datenverarbeitung ###
