@@ -226,7 +226,9 @@ def bloodflow_figure(value, bloodflow_checkmarks):
 
     return fig3
 
-
+### Aufgabe 3.4 
+# n = 5 ist optimale Lösung, falls n=3 Peaks ( von Störungen ) würden immer noch zu stark berücksichtigt und desto sichtbar. 
+# Falls n > 5 dann die Kurve würde zu glad sein und desto die tatsächliche Werte zu stark vernichtet.
     
 if __name__ == '__main__':
     app.run_server(debug=True)
