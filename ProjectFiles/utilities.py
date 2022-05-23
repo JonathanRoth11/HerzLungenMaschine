@@ -37,3 +37,12 @@ def calculate_CMA(df,n):
 
 def calculate_SMA(df,n):
     return df.rolling(n).mean()
+
+### Aufgabe 4 
+#4.1 
+# Simple Moving Average ist sinnvoll für Signale die eher glatte Ablauf haben sollten - in Wirklichkeit kann es nicht dazu vorkommen, 
+# dass das Unterschied zwischen den Werten schnell und um hoch sich ändert, sowie für Signale, welche potenzial, 
+# von aussen leicht gestört sein könnten, was resultiert mit einem unrealistischen Peak auf dem Diagramm.
+
+# 4.2 
+# Je grösser n ist, desto Funktionsablauf ist glatter. Die Werte sind stark beeinflusst.
